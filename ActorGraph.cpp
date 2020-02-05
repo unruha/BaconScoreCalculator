@@ -42,7 +42,7 @@ bool ActorGraph::hasSameMovie(int location, const vector<string>& movies) const
 	for (int i = 0; i < movies.size(); i++)
 	{
 		//loops through each value in actorMovies at the vector at the given location
-		for (int j = 0; j < actorMovies[location].size(); i++)
+		for (int j = 0; j < actorMovies[location].size(); j++)
 		{
 			if (movies[i] == actorMovies[location][j])
 			{
@@ -53,7 +53,4 @@ bool ActorGraph::hasSameMovie(int location, const vector<string>& movies) const
 	return false;
 }
 
-int main()
-{
-	return 0;
-}
+

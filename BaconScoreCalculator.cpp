@@ -19,35 +19,39 @@ bool BaconScoreCalculator::AddActors(string fileName)
 	}
 
 	//continues looping until the end of the file is reached
+	//retrieves the line of the file and puts it into string lineContents
 	while (!file.eof())
 	{
-		//retrieves the line of the file and puts it into string lineContents
-		getline(file, lineContents);
-		if (lineContents.empty())
+		while (getline(file, lineContents))
 		{
-			break;
-		}
-		//holds part of lineContents
-		istringstream parseLine(lineContents);
-		//holds the name of the actor parsed from lineContents
-		string name;
-		//holds the movies that the actor has participated in according to the file contents
-		vector<string> movies;
-		if (lineContents[0] != '\t')
-		{
-			//stores the part of the string up until the first tab into the name variable
-			getline(parseLine, name, '\t');
-			string firstMovie;
-			//stores the first movie that is on the same line as the actor name
-			getline(parseLine, firstMovie, '(');
-			movies.push_back(firstMovie);
-			parseLine.ignore();
-			//begin storing all the movies that are not on the same line as the actor names
-			string movieLine;
-			while (getline(parseLine, movieLine, '('))
-			{
+			if (lineContents == "") continue;
 
+			istringstream parseLine(lineContents);
+			string name;
+			string movieLine;
+			vector<string> movies;
+
+			getline(parseLine, name, '\t');
+
+			while (getline(parseLine, movieLine))
+			{
+				if (movieLine.empty())
+				{
+					break;
+				}
+				string movie(movieLine.begin(), find(movieLine.begin(), movieLine.end(), '('));
+				movies.push_back(movie);
 			}
+
+			theGraph.Add(name, movies);
 		}
 	}
+	return true;
+}
+
+int main(int argc, const char* argv[])
+{
+	BaconScoreCalculator myCalculator;
+	myCalculator.AddActors(argv[1]);
+
 }
