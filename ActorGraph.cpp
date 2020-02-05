@@ -24,7 +24,10 @@ void ActorGraph::Add(string name, vector<string>& movies)
 	{
 		if (hasSameMovie(i, movies))
 		{
+			//inserts the new actor into the existing chain
 			actors[i].push_back(name);
+			//inserts the adjacent actors into the new chain at the last index of 'actors'
+			actors[actors.size() - 1].push_back(actors[i][0]);
 		}
 	}
 }
@@ -48,4 +51,9 @@ bool ActorGraph::hasSameMovie(int location, const vector<string>& movies) const
 		}
 	}
 	return false;
+}
+
+int main()
+{
+	return 0;
 }
