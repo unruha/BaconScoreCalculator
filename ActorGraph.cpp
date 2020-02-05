@@ -4,82 +4,47 @@ ActorGraph::ActorGraph()
 {
 }
 
-void ActorGraph::Add(string name, const vector<string>& movies)
+//method: Add
+//input: a string for actors name and a list of their movies
+//output: adds an entry to the graph and any edges that it shares with the actors already in the graph
+void ActorGraph::Add(string name, vector<string>& movies)
 {
-	//pointer that points to new node to be inserted into the graph
-	actorNode* insNode = new actorNode;
-	insNode->name = name;
-	insNode->movieNames = movies;
-	insNode->next = nullptr;
-	actorList.push_back(insNode);
+	//inserting into the actor private member of graph
+	//a new subvector to be inserted into the actor private member of the graph 
+	vector<string> newActor;
+	newActor.push_back(name);
+	actors.push_back(newActor);
 
-	//loops through each actor in the actorlist except for the last one because that is the one that was just inserted
-	for (int i = 0; i < actorList.size() - 1; i++)
+	//inserting into the actorMovies private member of graph
+	actorMovies.push_back(movies);
+
+	//loops through each item in actorMovies to examine the movies that each actor has acted in except for the last
+	//location which is the new actor that we just added
+	for (int i = 0; i < actorMovies.size() - 1; i++)
 	{
-		//checks if the two actors contain a movie that is the same
-		if (sameMovie(insNode, actorList[i]))
+		if (hasSameMovie(i, movies))
 		{
-			//a new adjacent node to insert into the chain that is adjacent to insNode
-			adjacentNode* adjacent = new adjacentNode;
-			adjacent->name = insNode->name;
-			adjacent->next = nullptr;
-
-			//a new adjacent node to insert into the chain of insNode
-			adjacentNode* insAdjacent = new adjacentNode;
-			insAdjacent->name = actorList[i]->name;
-			insAdjacent->next = nullptr;
-
-			//temporary node pointer to find the end of the chain
-			adjacentNode* curr = actorList[i]->next;
-
-			//determines if the first node in the chain does not exist
-			if (curr == nullptr)
-			{
-				actorList[i]->next = adjacent;
-			}
-			else
-			{
-				curr = actorList[i]->next;
-				
-				//loops until one node before the end of the chain
-				while (curr->next != nullptr)
-				{
-					curr = curr->next;
-				}
-				//puts the new node on the end of the chain
-				curr->next = adjacent;
-			}
-
-			//pointer to the first node in the new node chain that was added
-			//it is located at actorList.size() - 1 because push_back always puts the item at the end of the vector
-			adjacentNode* temp = actorList[actorList.size() - 1]->next;
-			if (curr == nullptr)
-			{
-				//puts insAdjacent onto the end of the new chain that was inserted
-				actorList[actorList.size() - 1]->next = insAdjacent;
-			}
-			else
-			{
-				//loops to the end of the new chain and inserts the node
-				while (temp->next != nullptr)
-				{
-					temp = temp->next;
-				}
-				temp->next = insAdjacent;
-			}
+			actors[i].push_back(name);
 		}
 	}
 }
 
-bool ActorGraph::sameMovie(actorNode* actor1, actorNode* actor2) const
+//method: hasSameMovie
+//input: an integer that is the index of 'actorMovies' that we are comparing to the new actors movies vector to be inserted
+	//a vector of the movies of the new actor to be inserted into the graph
+//output: a boolean that is true if a common movie has been found and false if otherwise
+bool ActorGraph::hasSameMovie(int location, const vector<string>& movies) const
 {
-	//loops through each movie in the first actor node
-	for (int i = 0; i < actor1->movieNames.size(); i++)
+	//loops through each value in the actor to be inserted's movies
+	for (int i = 0; i < movies.size(); i++)
 	{
-		//searches the movie names of actor 2 and determines if the movie at 'i' of actor 1 is present in the movie list of actor 2
-		if (find(actor2->movieNames.begin(), actor2->movieNames.end(), actor1->movieNames[i]) != actor2->movieNames.end())
+		//loops through each value in actorMovies at the vector at the given location
+		for (int j = 0; j < actorMovies[location].size(); i++)
 		{
-			return true;
+			if (movies[i] == actorMovies[location][j])
+			{
+				return true;
+			}
 		}
 	}
 	return false;
