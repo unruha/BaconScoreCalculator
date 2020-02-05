@@ -24,6 +24,10 @@ bool BaconScoreCalculator::AddActors(string fileName)
 	{
 		while (getline(file, lineContents))
 		{
+			if (lineContents.empty())
+			{
+				break;
+			}
 			if (lineContents == "") continue;
 
 			istringstream parseLine(lineContents);
@@ -32,15 +36,36 @@ bool BaconScoreCalculator::AddActors(string fileName)
 			vector<string> movies;
 
 			getline(parseLine, name, '\t');
+			cout << name << endl;
 
-			while (getline(parseLine, movieLine))
+			string firstMovie;
+			getline(parseLine, firstMovie);
+			movies.push_back(firstMovie);
+			cout << firstMovie << endl;
+			
+			while (getline(file, movieLine, '\n'))
 			{
-				if (movieLine.empty())
+				parseLine.ignore();
+				if (movieLine.length() == 0)
 				{
 					break;
 				}
 				string movie(movieLine.begin(), find(movieLine.begin(), movieLine.end(), '('));
-				movies.push_back(movie);
+				
+				bool found = false;
+				for (int i = 0; i < movies.size(); i++)
+				{
+					if (movie == movies[i])
+					{
+						found = true;
+					}
+				}
+
+				if (!found)
+				{
+					cout << movie << endl;
+					movies.push_back(movie);
+				}
 			}
 
 			theGraph.Add(name, movies);
