@@ -53,6 +53,17 @@ bool ActorGraph::hasSameMovie(int location, const vector<string>& movies) const
 	return false;
 }
 
+int ActorGraph::findIndex(vector<string> theVector, string theString) const
+{
+	for (int j = 0; j < theVector.size(); j++)
+	{
+		if (theVector[j] == theString)
+		{
+			return j;
+		}
+	}
+}
+
 //method: printGraph
 //input: none
 //output: each actor in the graph followed by all of the actors that they have a common movie with
@@ -70,52 +81,61 @@ void ActorGraph::printGraph() const
 
 void ActorGraph::BreadthFirstSearch(int src) const
 {
-	//vector<int> distances; //respective distances of every node from your source node
-	//vector<bool> visited; // holds which nodes in the graph have been visited
-	//int nextNode; // holds which node to visit next
-	//int min = 99999; // holds the current minimum distance from the given node
+	vector<int> prev;
+	vector<string> nodes;
+	vector<int> distances;
 
-	//distances.clear();
-	//visited.clear();
+	for (int i = 0; i < actors.size(); i++)
+	{
+		distances.push_back(99999);
+		nodes.push_back(actors[i][0]);
+		prev.push_back(-1);
+	}
+	distances[src] = 0;
+	set<int> s;
+	list<int> queue;
 
-	//for (int i = 0; i < actors.size(); i++)
-	//{
-	//	distances.push_back(0);
-	//	visited.push_back(false);
-	//}
-	//visited.at(src) = true;
+	//add each node into the queue
+	for (int i = 0; i < actors.size(); i++)
+	{
+		queue.push_back(i);
+	}
 
-	//distances = actors.at(src);
-	//distances.at(src) = 0;
+	while (!queue.empty())
+	{
+		list<int>::iterator i;
+		i = min_element(queue.begin(), queue.end());
+		int u = *i; //the minimum element from the queue
+		queue.remove(u);
+		s.insert(u);
 
-	//for (int i = 0; i < actors.size(); i++)
-	//{
-	//	min = 99999;
-	//	for (int j = 0; j < actors.size(); j++)
-	//	{
-	//		if (min >= distances.at(j) && !visited.at(j))
-	//		{
-	//			min = distances.at(j);
-	//			nextNode = j;
-	//		}
-	//		visited.at(j) = true;
+		for (int i = 1; i < actors[u].size(); i++)
+		{
+			int index = findIndex(nodes, actors[u][i]);
+			
+			if (distances[u] + 1 < distances[index])
+			{
+				distances[index] = distances[u] + 1;
+				prev[index] = u;
+			}
+		}
+	}
+	for (int i = 0; i < nodes.size(); i++)
+	{
+		cout << nodes[i] << '\t' << distances[i] << endl;
+	}
+}
 
-	//		for (int s = 0; s < actors.size(); s++)
-	//		{
-	//			if (!visited.at(s))
-	//			{
-	//				if (min + actors.at(nextNode).at(s) > distances.at(s))
-	//				{
-	//					min + actors.at(nextNode).at(s) = distances.at(s);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-	//for (int c = 0; c < actors.size(); c++)
-	//{
-	//	cout << actors[c][0] << " bacon score: " << distances.at(c) << endl;
-	//}
+int ActorGraph::findBaconIndex() const
+{
+	for (int i = 0; i < actors.size(); i++)
+	{
+		if (actors[i][0] == "Bacon, Kevin (I)")
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 

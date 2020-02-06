@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
+#include <queue>
+#include <list>
+#include <set>
 
 using namespace std;
 
@@ -26,6 +29,8 @@ public:
 	//output: performs djikstra's algorithm and prints out the bacon scores of each of the actors in the graph
 	void BreadthFirstSearch(int src) const;
 
+	int findBaconIndex() const;
+
 private:
 	vector<vector<string>> actorMovies;
 	vector<vector<string>> actors;
@@ -35,5 +40,7 @@ private:
 		//a vector of the movies of the new actor to be inserted into the graph
 	//output: a boolean that is true if a common movie has been found and false if otherwise
 	bool hasSameMovie(int location, const vector<string>& movies) const;
+
+	int findIndex(vector<string>, string theString) const;
 };
 

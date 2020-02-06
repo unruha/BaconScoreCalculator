@@ -81,9 +81,20 @@ void BaconScoreCalculator::printActorsGraph() const
 	theGraph.printGraph();
 }
 
+int BaconScoreCalculator::baconIndex() const
+{
+	return theGraph.findBaconIndex();
+}
+
+void BaconScoreCalculator::DijkstraAlgorithm(int index) const
+{
+	theGraph.BreadthFirstSearch(index);
+}
+
 int main(int argc, const char* argv[])
 {
 	BaconScoreCalculator myCalculator;
 	myCalculator.AddActors(argv[1]);
-	myCalculator.printActorsGraph();
+	int index = myCalculator.baconIndex();
+	myCalculator.DijkstraAlgorithm(index);
 }

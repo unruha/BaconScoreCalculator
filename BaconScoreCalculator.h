@@ -24,6 +24,10 @@ public:
 	//output: each of the actors in the graph with the actors that they share a movie with
 	void printActorsGraph() const;
 
+	int baconIndex() const;
+
+	void DijkstraAlgorithm(int index) const;
+
 private:
 	ActorGraph theGraph;
 };
