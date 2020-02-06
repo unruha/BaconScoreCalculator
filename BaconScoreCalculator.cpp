@@ -39,9 +39,10 @@ bool BaconScoreCalculator::AddActors(string fileName)
 			cout << name << endl;
 
 			string firstMovie;
-			getline(parseLine, firstMovie);
+			getline(parseLine, firstMovie, '(');
+			firstMovie.erase(remove(firstMovie.begin(), firstMovie.end(), '\t'), firstMovie.end());
 			movies.push_back(firstMovie);
-			cout << firstMovie << endl;
+			cout << '\t' << firstMovie << endl;
 			
 			while (getline(file, movieLine, '\n'))
 			{
@@ -51,7 +52,8 @@ bool BaconScoreCalculator::AddActors(string fileName)
 					break;
 				}
 				string movie(movieLine.begin(), find(movieLine.begin(), movieLine.end(), '('));
-				
+				//removes all extra tabs from the movie name that is about to be inserted into the graph
+				movie.erase(remove(movie.begin(), movie.end(), '\t'), movie.end());
 				bool found = false;
 				for (int i = 0; i < movies.size(); i++)
 				{
@@ -63,7 +65,7 @@ bool BaconScoreCalculator::AddActors(string fileName)
 
 				if (!found)
 				{
-					cout << movie << endl;
+					cout << '\t' << movie << endl;
 					movies.push_back(movie);
 				}
 			}
@@ -74,9 +76,14 @@ bool BaconScoreCalculator::AddActors(string fileName)
 	return true;
 }
 
+void BaconScoreCalculator::printActorsGraph() const
+{
+	theGraph.printGraph();
+}
+
 int main(int argc, const char* argv[])
 {
 	BaconScoreCalculator myCalculator;
 	myCalculator.AddActors(argv[1]);
-
+	myCalculator.printActorsGraph();
 }
