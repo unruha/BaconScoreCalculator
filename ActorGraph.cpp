@@ -141,7 +141,14 @@ void ActorGraph::BreadthFirstSearch(int src) const
 	//loops through all of the distances and prints them out alongside their corresponding actor name
 	for (int i = 0; i < nodes.size(); i++)
 	{
-		cout << nodes[i] << '\t' << distances[i] << endl;
+		if (distances[i] != 99999)
+		{
+			cout << nodes[i] << '\t' << distances[i] << endl;
+		}
+		else
+		{
+			cout << nodes[i] << '\t' << "infinity" << endl;
+		}
 	}
 }
 
