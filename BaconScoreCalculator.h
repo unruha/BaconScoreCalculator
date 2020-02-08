@@ -8,6 +8,9 @@
 #include "ActorGraph.h"
 using namespace std;
 
+//name: Adrian Unruh
+//student id: 1978507
+
 class BaconScoreCalculator
 {
 public:
@@ -24,8 +27,15 @@ public:
 	//output: each of the actors in the graph with the actors that they share a movie with
 	void printActorsGraph() const;
 
+	//method: baconIndex
+	//input: none
+	//output: returns the location of actor 'Kevin Bacon' in the graph
 	int baconIndex() const;
 
+	//method: DijkstraAlgorithm
+	//input: the index of the actor to find the distances from
+	//output: performs the dijkstra algorithm on the contents of the graph and prints out 
+		//each actor and their bacon score
 	void DijkstraAlgorithm(int index) const;
 
 private:

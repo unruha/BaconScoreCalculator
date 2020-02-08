@@ -7,6 +7,9 @@
 #include <list>
 #include <set>
 
+//name: Adrian Unruh
+//student id: 1978507
+
 using namespace std;
 
 class ActorGraph
@@ -29,6 +32,9 @@ public:
 	//output: performs djikstra's algorithm and prints out the bacon scores of each of the actors in the graph
 	void BreadthFirstSearch(int src) const;
 
+	//method: findBaconIndex
+	//input: none
+	//out: returns an integer that is the index of kevin bacon in the graph
 	int findBaconIndex() const;
 
 private:
@@ -41,6 +47,9 @@ private:
 	//output: a boolean that is true if a common movie has been found and false if otherwise
 	bool hasSameMovie(int location, const vector<string>& movies) const;
 
+	//method: findIndex
+	//input: a vector to be searched, a string which is the key
+	//outputs the location of the string that was passed into the vector
 	int findIndex(vector<string>, string theString) const;
 };
 
