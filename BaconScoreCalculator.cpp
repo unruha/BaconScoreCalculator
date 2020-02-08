@@ -118,7 +118,7 @@ void BaconScoreCalculator::DijkstraAlgorithm(int index) const
 }
 
 //main method
-int main(int argc, const char* argv[])
+int main(int argc, const char* argv[1])
 {
 	BaconScoreCalculator myCalculator;
 	myCalculator.AddActors(argv[1]);
